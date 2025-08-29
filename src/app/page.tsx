@@ -1,8 +1,16 @@
+import React from "react";
+import MainSlider from "./_components/MainSlider/MainSlider";
+import CategoriesSlider from "./_components/CategoriesSlider/CategoriesSlider";
+import getCategories from "../APIs/allCategories.api";
+import AllProducts from "./_components/AllProducts/AllProducts";
 
-export default function Home() {
+export default async function Home() {
+  let categories = await getCategories();
   return (
-    <>
-    Home
-    </>
+    <div>
+      <MainSlider />
+      <CategoriesSlider data={categories} />
+      <AllProducts />
+    </div>
   );
 }

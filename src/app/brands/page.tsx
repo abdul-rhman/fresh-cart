@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function Brands() {
-  return (
-    <div>Brands</div>
-  )
+  return <div>Brands</div>;
 }
