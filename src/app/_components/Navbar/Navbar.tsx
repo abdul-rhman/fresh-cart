@@ -2,6 +2,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import { Session } from "next-auth";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -23,9 +24,13 @@ export default function Navbar() {
             <li>
               <Link href="/">Home</Link>
             </li>
-            <li>
-              <Link href="/cart">Cart</Link>
-            </li>
+            {session ? (
+              <li>
+                <Link href="/cart">Cart</Link>
+              </li>
+            ) : (
+              ""
+            )}
             <li>
               <Link href="/products">Products</Link>
             </li>
@@ -40,7 +45,7 @@ export default function Navbar() {
 
         <div id="right">
           <ul className="flex gap-1.5 lg:gap-3">
-            {!session ? (
+            {status === "unauthenticated" ? (
               <>
                 <li>
                   <i className="cursor-pointer fab fa-facebook"></i>
@@ -64,10 +69,12 @@ export default function Navbar() {
                   <Link href={"/signin"}>Login</Link>
                 </li>
               </>
-            ) : (
+            ) : status === "authenticated" ? (
               <li className="cursor-pointer" onClick={handleSignOut}>
                 SignOut
               </li>
+            ) : (
+              ""
             )}
           </ul>
         </div>

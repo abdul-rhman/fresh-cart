@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -10,8 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { ProductType } from "@/types/product.type";
-import { Button } from "@/components/ui/button";
+import { ProductType } from "@/types/Product.type";
+import AddtoCartButton from "./../AddtoCartButton/AddtoCartButton";
 
 export default function SingleProduct({ product }: { product: ProductType }) {
   return (
@@ -45,9 +44,7 @@ export default function SingleProduct({ product }: { product: ProductType }) {
             </div>
           </div>
         </CardFooter>
-        <Button className="rounded-md p-2 cursor-pointer bg-emerald-700 hover:bg-emerald-900 text-white font-bold">
-          Add to Cart
-        </Button>
+        <AddtoCartButton productId={product.id} />
       </Card>
     </div>
   );

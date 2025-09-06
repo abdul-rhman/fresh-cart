@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { ProductType } from "@/types/product.type";
+import { ProductType } from "@/types/Product.type";
+import AddtoCartButton from "./../AddtoCartButton/AddtoCartButton";
 export default function ProductDetails({ product }: { product: ProductType }) {
   return (
     <>
@@ -27,9 +28,7 @@ export default function ProductDetails({ product }: { product: ProductType }) {
               <i className="fas fa-star text-yellow-400"></i>
             </div>
           </div>
-          <button className="rounded-md p-2 m-2 w-full cursor-pointer bg-emerald-700 hover:bg-emerald-900 text-white font-bold">
-            Add to Cart
-          </button>
+          <AddtoCartButton productId={product.id} />
         </div>
       </div>
     </>

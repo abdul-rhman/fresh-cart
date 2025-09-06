@@ -5,8 +5,9 @@ import React from "react";
 export default async function SingleProduct({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  let product = await getSingleProduct(params.id);
+  const { id } = await params;
+  let product = await getSingleProduct(id);
   return <ProductDetails product={product} />;
 }
