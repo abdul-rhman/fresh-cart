@@ -1,21 +1,33 @@
 "use client";
 import removeCartItem from "@/actions/removeCartItem.action";
 import updateCartItemQuantity from "@/actions/updateCartItemQuantity.action";
+import { cartCountContext } from "@/Contexts/CartCountContextProvider";
+import { cartItemType, cartType } from "@/types/Cart.type";
+import { ProductType } from "@/types/Product.type";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "sonner";
 
 export default function CartItem({
   product,
   updateCart,
 }: {
-  product: object;
+  product: cartItemType;
   updateCart: Function;
 }) {
   const [isprocessing, setIsProcessing] = useState(false);
 
+  const { setCartItemsCount } = useContext(cartCountContext)!;
+  function updateNavCount(products: cartItemType[]) {
+    const sum = products.reduce(
+      (acc: number, current) => acc + current.count,
+      0
+    );
+    setCartItemsCount(sum);
+  }
   async function handleUpdateItemCount(count: number) {
     setIsProcessing(true);
+
     try {
       const res = await updateCartItemQuantity(product.product.id, count);
       if (res.status === "success") {
@@ -24,6 +36,7 @@ export default function CartItem({
           duration: 2000,
         });
         updateCart(res);
+        updateNavCount(res.data.products);
       } else {
         toast.error("can't update this Item", {
           position: "top-center",
@@ -43,7 +56,7 @@ export default function CartItem({
           position: "top-center",
           duration: 2000,
         });
-        console.log(res);
+        updateNavCount(res.data.products);
         updateCart(res);
       } else {
         toast.error("can't remove this product from cart", {

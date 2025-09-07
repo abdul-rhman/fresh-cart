@@ -6,23 +6,27 @@ export default async function updateCartItemQuantity(
   productId: string,
   count: number
 ) {
-  const token = await getMyToken();
+  try {
+    const token = await getMyToken();
 
-  if (!token) {
-    toast.error("Login first", {
-      position: "top-center",
-      duration: 20000,
-    });
-    throw new Error("login first");
-  }
-  const response = await fetch(
-    `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
-    {
-      method: "PUT",
-      headers: { token, "Content-Type": "application/json" },
-      body: JSON.stringify({ count: String(count) }),
+    if (!token) {
+      toast.error("Login first", {
+        position: "top-center",
+        duration: 20000,
+      });
+      throw new Error("login first");
     }
-  );
-  const payload = await response.json();
-  return payload;
+    const response = await fetch(
+      `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
+      {
+        method: "PUT",
+        headers: { token, "Content-Type": "application/json" },
+        body: JSON.stringify({ count: String(count) }),
+      }
+    );
+    const payload = await response.json();
+    return payload;
+  } catch (err) {
+    return err;
+  }
 }

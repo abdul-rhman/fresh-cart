@@ -1,12 +1,13 @@
 "use client";
 import addToCart from "@/actions/addToCart.action";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import { cartCountContext } from "@/Contexts/CartCountContextProvider";
+import React, { useContext, useState } from "react";
 import { toast } from "sonner";
 
 export default function AddtoCartButton({ productId }: { productId: string }) {
   const [isLoading, setIsLoading] = useState(false);
-
+  const { setCartItemsCount } = useContext(cartCountContext)!;
   async function handleAddToCart() {
     setIsLoading(true);
     try {
@@ -16,8 +17,9 @@ export default function AddtoCartButton({ productId }: { productId: string }) {
           position: "top-center",
           duration: 2000,
         });
+        setCartItemsCount((current) => current + 1);
       } else {
-        toast.error("can't add this product to cart", {
+        toast.error(response.message, {
           position: "top-center",
           duration: 2000,
         });

@@ -1,18 +1,21 @@
 "use client";
 import getCartItems from "@/actions/getCartItems.action";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CartItem from "../_components/CartItem/CartItem";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import ClearCart from "@/actions/clearCart.action";
+import { cartCountContext } from "@/Contexts/CartCountContextProvider";
+import { cartResponseType } from "@/types/Cart.type";
 
 export default function Cart() {
-  const [cart, SetCart] = useState<{ data?: Object }>({});
+  const [cart, SetCart] = useState<cartResponseType>();
   const [isCartLoading, setCartLoading] = useState(true);
   const [isClearCartLoading, setClearCartLoading] = useState(false);
-  console.log(cart.data?.totalCartPrice);
+  console.log(cart?.data.totalCartPrice);
 
-  function handleCartUpdate(newCart) {
+  const { setCartItemsCount } = useContext(cartCountContext)!;
+  function handleCartUpdate(newCart: cartResponseType) {
     SetCart(newCart);
   }
   async function handleClearCart() {
@@ -25,6 +28,7 @@ export default function Cart() {
           position: "top-center",
           duration: 2000,
         });
+        setCartItemsCount(0);
         updaeCart();
       } else {
         toast.error("can't clear your cart", {

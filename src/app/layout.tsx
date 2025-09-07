@@ -5,6 +5,7 @@ import Navbar from "./_components/Navbar/Navbar";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { Toaster } from "@/components/ui/sonner";
 import MySessionProvider from "./_components/MySessionProvider/MySessionProvider";
+import { CartCountContextProvider } from "@/Contexts/CartCountContextProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,10 +33,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster />
-        <MySessionProvider>
-          <Navbar />
-        </MySessionProvider>
-        {children}
+        <CartCountContextProvider>
+          <MySessionProvider>
+            <Navbar />
+          </MySessionProvider>
+          {children}
+        </CartCountContextProvider>
       </body>
     </html>
   );

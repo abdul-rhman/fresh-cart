@@ -1,15 +1,34 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Session } from "next-auth";
+import { cartCountContext } from "@/Contexts/CartCountContextProvider";
+import getCartItems from "@/actions/getCartItems.action";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-
+  const { cartItemsCount, setCartItemsCount } = useContext(cartCountContext)!;
   function handleSignOut() {
     signOut({ callbackUrl: "/signin" });
   }
+
+  async function updaeCartCount() {
+    try {
+      let res = await getCartItems();
+      if (res.status === "success") {
+        const sum = res.data.products.reduce(
+          (acc: number, current) => acc + current.count,
+          0
+        );
+        setCartItemsCount(sum);
+      }
+    } catch (err) {}
+  }
+
+  useEffect(() => {
+    updaeCartCount();
+  }, []);
   return (
     <nav className="bg-emerald-700 text-white">
       <div className="container p-4 mx-auto w-full lg:w-[85%] flex flex-col lg:flex-row justify-between gap-4 items-center">
@@ -25,8 +44,13 @@ export default function Navbar() {
               <Link href="/">Home</Link>
             </li>
             {session ? (
-              <li>
+              <li className="relative">
                 <Link href="/cart">Cart</Link>
+                {cartItemsCount > 0 && (
+                  <div className="flex items-center justify-center absolute size-[20px] p-2 rounded-full -right-2 -top-3 bg-white text-emerald-900">
+                    {cartItemsCount}
+                  </div>
+                )}
               </li>
             ) : (
               ""
