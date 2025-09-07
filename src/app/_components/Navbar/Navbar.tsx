@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from "react";
 import { Session } from "next-auth";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
 import getCartItems from "@/actions/getCartItems.action";
+import { cartItemType, cartProductType } from "@/types/Cart.type";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -18,7 +19,7 @@ export default function Navbar() {
       let res = await getCartItems();
       if (res.status === "success") {
         const sum = res.data.products.reduce(
-          (acc: number, current) => acc + current.count,
+          (acc: number, current: cartItemType) => acc + current.count,
           0
         );
         setCartItemsCount(sum);
