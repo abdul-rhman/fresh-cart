@@ -9,18 +9,20 @@ export default function AddtoCartButton({ productId }: { productId: string }) {
 
   async function handleAddToCart() {
     setIsLoading(true);
-    const response = await addToCart(productId);
-    if (response.status === "success") {
-      toast.success("Product added to cart sucessfully", {
-        position: "top-center",
-        duration: 2000,
-      });
-    } else {
-      toast.error("can't add this product to cart", {
-        position: "top-center",
-        duration: 2000,
-      });
-    }
+    try {
+      const response = await addToCart(productId);
+      if (response.status === "success") {
+        toast.success("Product added to cart sucessfully", {
+          position: "top-center",
+          duration: 2000,
+        });
+      } else {
+        toast.error("can't add this product to cart", {
+          position: "top-center",
+          duration: 2000,
+        });
+      }
+    } catch (err) {}
 
     setIsLoading(false);
   }

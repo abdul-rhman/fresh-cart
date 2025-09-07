@@ -9,5 +9,6 @@ export default async function getMyToken() {
     token: jwt,
     secret: process.env.NEXTAUTH_SECRET!,
   });
+  console.log(decoded?.token);
   return decoded?.token;
 }
