@@ -19,9 +19,11 @@ import { registerFormSchema, registerShemaType } from "@/Schema/register.shema";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Register() {
   let router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<registerShemaType>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -34,6 +36,7 @@ export default function Register() {
   });
 
   async function onSubmit(values: registerShemaType) {
+    setIsLoading(true);
     try {
       let { data } = await axios.post(
         `https://ecommerce.routemisr.com/api/v1/auth/signup`,
@@ -50,6 +53,8 @@ export default function Register() {
         toast.error("Unexpected error");
       }
     }
+
+    setIsLoading(false);
   }
 
   return (
@@ -135,10 +140,15 @@ export default function Register() {
             )}
           />
           <Button
-            className="cursor-pointer w-full bg-emerald-800 hover:bg-emerald-900"
+            disabled={isLoading}
+            className="cursor-pointer w-full disabled:bg-emerald-500 bg-emerald-800 hover:bg-emerald-900"
             type="submit"
           >
-            Submit
+            {isLoading ? (
+              <i className=" fa fa-spin fa-spinner"></i>
+            ) : (
+              "Register"
+            )}
           </Button>
         </form>
       </Form>

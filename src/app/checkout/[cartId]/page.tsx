@@ -2,74 +2,64 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginFormSchema, loginShemaType } from "@/Schema/signin.shema";
 import axios from "axios";
+import { checkoutFormSchema, checkoutShemaType } from "@/Schema/checkout.shema";
+import { useParams } from "next/navigation";
+import onlinePayment from "@/actions/checkoutAction/onlineCheckout.action";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 
-export default function Register() {
-  const [isLoading, setIsLoading] = useState(false);
-  const form = useForm<loginShemaType>({
-    resolver: zodResolver(loginFormSchema),
+export default function Checkout() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { cartId }: { cartId: string } = useParams();
+  const form = useForm<checkoutShemaType>({
+    resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      details: "",
+      phone: "",
+      city: "",
     },
   });
 
-  async function onSubmit(values: loginShemaType) {
+  async function onSubmit(values: checkoutShemaType) {
     setIsLoading(true);
-    let response = await signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-      callbackUrl: "/",
-    });
-    if (response?.ok) {
-      window.location.href = "/";
-    }
-    if (response?.error)
-      toast.error(response?.error, {
+    let res = await onlinePayment(cartId, "http://localhost:3000", values);
+    if (res.status === "success") {
+      window.location.assign(res.session.url);
+    } else {
+      toast.error("something went wrong", {
         position: "top-center",
         duration: 2000,
-        style: {
-          fontWeight: "bold",
-          color: "red",
-        },
       });
+    }
     setIsLoading(false);
   }
 
   return (
     <div className="my-12 w-[90%] lg:w-[40%] mx-auto">
-      <h1 className="text-3xl font-bold text-center">Login to fresh cart</h1>
+      <h1 className="text-3xl font-bold text-center">Checkout</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
-            name="email"
+            name="details"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Details</FormLabel>
                 <FormControl>
                   <Input
-                    type="email"
-                    placeholder="Enter your E-mail"
+                    type="text"
+                    placeholder="Enter your Address details"
                     {...field}
                   />
                 </FormControl>
@@ -79,16 +69,29 @@ export default function Register() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Pasword</FormLabel>
+                <FormLabel>Phone</FormLabel>
                 <FormControl>
                   <Input
-                    type="password"
-                    placeholder="Enter your password"
+                    type="tel"
+                    placeholder="Enter your phone number"
                     {...field}
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="Enter your city" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,7 +102,7 @@ export default function Register() {
             className="cursor-pointer w-full disabled:bg-emerald-500 bg-emerald-800 hover:bg-emerald-900"
             type="submit"
           >
-            {isLoading ? <i className=" fa fa-spin fa-spinner"></i> : "Sign In"}
+            {isLoading ? <i className=" fa fa-spin fa-spinner"></i> : "pay"}
           </Button>
         </form>
       </Form>

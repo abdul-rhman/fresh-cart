@@ -1,12 +1,13 @@
 "use client";
-import getCartItems from "@/actions/getCartItems.action";
+import getCartItems from "@/actions/cartActions/getCartItems.action";
 import React, { useContext, useEffect, useState } from "react";
 import CartItem from "../_components/CartItem/CartItem";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import ClearCart from "@/actions/clearCart.action";
+import ClearCart from "@/actions/cartActions/clearCart.action";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
 import { cartResponseType } from "@/types/Cart.type";
+import Link from "next/link";
 
 export default function Cart() {
   const [cart, SetCart] = useState<cartResponseType>();
@@ -113,6 +114,20 @@ export default function Cart() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className="flex flex-wrap items-stretch">
+            <div className="w-full lg:w-3/4">
+              <div className="border-2 border-emerald-900 text-2xl text-center font-bold p-6">
+                Total Price : {cart.data.totalCartPrice}LE
+              </div>
+            </div>
+
+            <Link
+              href={`/checkout/${cart.cartId}`}
+              className=" p-6 flex items-center justify-center cursor-pointer hover:bg-emerald-700 transition-colors w-full lg:w-1/4 font-bold text-2xl bg-emerald-800 text-white"
+            >
+              Checkout
+            </Link>
           </div>
         </div>
       ) : (

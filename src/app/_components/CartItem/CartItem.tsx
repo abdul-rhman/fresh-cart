@@ -1,6 +1,6 @@
 "use client";
-import removeCartItem from "@/actions/removeCartItem.action";
-import updateCartItemQuantity from "@/actions/updateCartItemQuantity.action";
+import removeCartItem from "@/actions/cartActions/removeCartItem.action";
+import updateCartItemQuantity from "@/actions/cartActions/updateCartItemQuantity.action";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
 import { cartItemType, cartType } from "@/types/Cart.type";
 import { ProductType } from "@/types/Product.type";

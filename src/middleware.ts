@@ -10,12 +10,18 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.next();
   } else {
-    if (pathname == "/cart")
+    if (pathname == "/cart" || pathname.includes("/checkout"))
       return NextResponse.redirect(new URL("/signin", request.url));
     return NextResponse.next();
   }
 }
 
 export const config = {
-  matcher: ["/cart", "/signin", "/register"],
+  matcher: [
+    "/cart",
+    "/signin",
+    "/checkout/:path*",
+    "/checkout/:cartId",
+    "/register",
+  ],
 };

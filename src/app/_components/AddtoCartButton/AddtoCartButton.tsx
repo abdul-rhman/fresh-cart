@@ -1,5 +1,5 @@
 "use client";
-import addToCart from "@/actions/addToCart.action";
+import addToCart from "@/actions/cartActions/addToCart.action";
 import { Button } from "@/components/ui/button";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
 import React, { useContext, useState } from "react";
