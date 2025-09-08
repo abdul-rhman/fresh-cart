@@ -1,9 +1,12 @@
 "use client";
+import getCartItems from "@/actions/getCartItems.action";
+import { cartItemType } from "@/types/Cart.type";
 import {
   createContext,
   Dispatch,
   ReactNode,
   SetStateAction,
+  useEffect,
   useState,
 } from "react";
 
@@ -22,6 +25,22 @@ export function CartCountContextProvider({
   children: ReactNode;
 }) {
   const [cartItemsCount, setCartItemsCount] = useState(0);
+  async function updaeCartCount() {
+    try {
+      let res = await getCartItems();
+      if (res.status === "success") {
+        const sum = res.data.products.reduce(
+          (acc: number, current: cartItemType) => acc + current.count,
+          0
+        );
+        setCartItemsCount(sum);
+      }
+    } catch (err) {}
+  }
+
+  useEffect(() => {
+    updaeCartCount();
+  }, []);
   return (
     <cartCountContext.Provider value={{ cartItemsCount, setCartItemsCount }}>
       {children}

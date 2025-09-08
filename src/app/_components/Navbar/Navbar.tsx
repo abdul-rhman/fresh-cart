@@ -4,8 +4,6 @@ import Link from "next/link";
 import React, { useContext, useEffect } from "react";
 import { Session } from "next-auth";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
-import getCartItems from "@/actions/getCartItems.action";
-import { cartItemType, cartProductType } from "@/types/Cart.type";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -14,22 +12,7 @@ export default function Navbar() {
     signOut({ callbackUrl: "/signin" });
   }
 
-  async function updaeCartCount() {
-    try {
-      let res = await getCartItems();
-      if (res.status === "success") {
-        const sum = res.data.products.reduce(
-          (acc: number, current: cartItemType) => acc + current.count,
-          0
-        );
-        setCartItemsCount(sum);
-      }
-    } catch (err) {}
-  }
-
-  useEffect(() => {
-    updaeCartCount();
-  }, []);
+  
   return (
     <nav className="bg-emerald-700 text-white">
       <div className="container p-4 mx-auto w-full lg:w-[85%] flex flex-col lg:flex-row justify-between gap-4 items-center">
