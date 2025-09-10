@@ -13,9 +13,13 @@ export default function Cart() {
   const [cart, SetCart] = useState<cartResponseType>();
   const [isCartLoading, setCartLoading] = useState(true);
   const [isClearCartLoading, setClearCartLoading] = useState(false);
+  const [isCheckoutLoading, setCheckoutLoading] = useState(false);
   console.log(cart?.data.totalCartPrice);
 
   const { setCartItemsCount } = useContext(cartCountContext)!;
+  function handleCheckout(){
+    setCheckoutLoading(true)
+  }
   function handleCartUpdate(newCart: cartResponseType) {
     SetCart(newCart);
   }
@@ -123,10 +127,16 @@ export default function Cart() {
             </div>
 
             <Link
+              onClick={handleCheckout}
               href={`/checkout/${cart.cartId}`}
-              className=" p-6 flex items-center justify-center cursor-pointer hover:bg-emerald-700 transition-colors w-full lg:w-1/4 font-bold text-2xl bg-emerald-800 text-white"
+              className={`p-6 flex items-center justify-center ${isCheckoutLoading? 'cursor-no-drop bg-emerald-500':'cursor-pointer bg-emerald-800 hover:bg-emerald-700'} transition-colors w-full lg:w-1/4 font-bold text-2xl  text-white`}
             >
-              Checkout
+              
+              {isCheckoutLoading ? (
+                <i className=" fa fa-spin fa-spinner"></i>
+              ) : (
+                "Checkout"
+              )}
             </Link>
           </div>
         </div>
