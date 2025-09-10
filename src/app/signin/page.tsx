@@ -2,13 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,9 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { loginFormSchema, loginShemaType } from "@/Schema/signin.shema";
-import axios from "axios";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
@@ -34,7 +30,7 @@ export default function Register() {
 
   async function onSubmit(values: loginShemaType) {
     setIsLoading(true);
-    let response = await signIn("credentials", {
+    const response = await signIn("credentials", {
       email: values.email,
       password: values.password,
       redirect: false,

@@ -1,8 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { jwtDecode } from "jwt-decode";
-import async from "./page";
-import { use } from "react";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -16,7 +14,7 @@ export const authOptions: NextAuthOptions = {
         password: {},
       },
       authorize: async (credentials) => {
-        let response = await fetch(`${process.env.API}/auth/signin`, {
+        const response = await fetch(`${process.env.API}/auth/signin`, {
           method: "POST",
           body: JSON.stringify({
             email: credentials?.email,

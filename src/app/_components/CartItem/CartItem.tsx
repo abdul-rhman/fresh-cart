@@ -2,8 +2,7 @@
 import removeCartItem from "@/actions/cartActions/removeCartItem.action";
 import updateCartItemQuantity from "@/actions/cartActions/updateCartItemQuantity.action";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
-import { cartItemType, cartType } from "@/types/Cart.type";
-import { ProductType } from "@/types/Product.type";
+import { cartItemType, cartResponseType } from "@/types/cart.type";
 import Image from "next/image";
 import React, { useContext, useState } from "react";
 import { toast } from "sonner";
@@ -13,7 +12,7 @@ export default function CartItem({
   updateCart,
 }: {
   product: cartItemType;
-  updateCart: Function;
+  updateCart: (newCart: cartResponseType) => void;
 }) {
   const [isprocessing, setIsProcessing] = useState(false);
 
@@ -43,7 +42,10 @@ export default function CartItem({
           duration: 2000,
         });
       }
-    } catch (err) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      }
+    }
     setIsProcessing(false);
   }
 
@@ -64,7 +66,10 @@ export default function CartItem({
           duration: 2000,
         });
       }
-    } catch (err) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      }
+    }
     setIsProcessing(false);
   }
   return (

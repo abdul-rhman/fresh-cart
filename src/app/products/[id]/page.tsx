@@ -2,7 +2,7 @@ import getRelatedProducts from "@/APIs/relatedProducts.api";
 import getSingleProduct from "@/APIs/singleProduct.api";
 import ProductDetails from "@/app/_components/ProductDetails/ProductDetails";
 import React from "react";
-import { ProductType } from "./../../../types/Product.type";
+import { ProductType } from "../../../types/product.type";
 import SingleProduct from "./../../_components/SignleProduct/SingleProduct";
 
 export default async function SingleProductDetailed({

@@ -24,7 +24,10 @@ export default function AddtoCartButton({ productId }: { productId: string }) {
           duration: 2000,
         });
       }
-    } catch (err) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      }
+    }
 
     setIsLoading(false);
   }

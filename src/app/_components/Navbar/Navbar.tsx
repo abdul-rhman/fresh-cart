@@ -1,18 +1,16 @@
 "use client";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useContext, useEffect } from "react";
-import { Session } from "next-auth";
+import React, { useContext } from "react";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
-  const { cartItemsCount, setCartItemsCount } = useContext(cartCountContext)!;
+  const { cartItemsCount } = useContext(cartCountContext)!;
   function handleSignOut() {
     signOut({ callbackUrl: "/signin" });
   }
 
-  
   return (
     <nav className="bg-emerald-700 text-white">
       <div className="container p-4 mx-auto w-full lg:w-[85%] flex flex-col lg:flex-row justify-between gap-4 items-center">

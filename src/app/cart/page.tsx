@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import ClearCart from "@/actions/cartActions/clearCart.action";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
-import { cartResponseType } from "@/types/Cart.type";
+import { cartResponseType } from "@/types/cart.type";
 import Link from "next/link";
 
 export default function Cart() {
@@ -17,8 +17,8 @@ export default function Cart() {
   console.log(cart?.data.totalCartPrice);
 
   const { setCartItemsCount } = useContext(cartCountContext)!;
-  function handleCheckout(){
-    setCheckoutLoading(true)
+  function handleCheckout() {
+    setCheckoutLoading(true);
   }
   function handleCartUpdate(newCart: cartResponseType) {
     SetCart(newCart);
@@ -41,18 +41,24 @@ export default function Cart() {
           duration: 2000,
         });
       }
-    } catch (err) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      }
+    }
     setClearCartLoading(false);
   }
   async function updaeCart() {
     try {
-      let res = await getCartItems();
+      const res = await getCartItems();
       console.log(res);
       setCartLoading(false);
       if (res.status === "success") {
         SetCart(res);
       }
-    } catch (err) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      }
+    }
   }
 
   useEffect(() => {
@@ -129,9 +135,12 @@ export default function Cart() {
             <Link
               onClick={handleCheckout}
               href={`/checkout/${cart.cartId}`}
-              className={`p-6 flex items-center justify-center ${isCheckoutLoading? 'cursor-no-drop bg-emerald-500':'cursor-pointer bg-emerald-800 hover:bg-emerald-700'} transition-colors w-full lg:w-1/4 font-bold text-2xl  text-white`}
+              className={`p-6 flex items-center justify-center ${
+                isCheckoutLoading
+                  ? "cursor-no-drop bg-emerald-500"
+                  : "cursor-pointer bg-emerald-800 hover:bg-emerald-700"
+              } transition-colors w-full lg:w-1/4 font-bold text-2xl  text-white`}
             >
-              
               {isCheckoutLoading ? (
                 <i className=" fa fa-spin fa-spinner"></i>
               ) : (

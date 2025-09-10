@@ -12,7 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { checkoutFormSchema, checkoutShemaType } from "@/Schema/checkout.shema";
 import { useParams } from "next/navigation";
 import onlinePayment from "@/actions/checkoutAction/onlineCheckout.action";
@@ -33,7 +32,7 @@ export default function Checkout() {
 
   async function onSubmit(values: checkoutShemaType) {
     setIsLoading(true);
-    let res = await onlinePayment(cartId, "http://localhost:3000", values);
+    const res = await onlinePayment(cartId, "http://localhost:3000", values);
     if (res.status === "success") {
       window.location.assign(res.session.url);
     } else {

@@ -1,6 +1,6 @@
 "use client";
 import getCartItems from "@/actions/cartActions/getCartItems.action";
-import { cartItemType } from "@/types/Cart.type";
+import { cartItemType } from "@/types/cart.type";
 import {
   createContext,
   Dispatch,
@@ -27,7 +27,7 @@ export function CartCountContextProvider({
   const [cartItemsCount, setCartItemsCount] = useState(0);
   async function updaeCartCount() {
     try {
-      let res = await getCartItems();
+      const res = await getCartItems();
       if (res.status === "success") {
         const sum = res.data.products.reduce(
           (acc: number, current: cartItemType) => acc + current.count,
@@ -35,7 +35,10 @@ export function CartCountContextProvider({
         );
         setCartItemsCount(sum);
       }
-    } catch (err) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+      }
+    }
   }
 
   useEffect(() => {

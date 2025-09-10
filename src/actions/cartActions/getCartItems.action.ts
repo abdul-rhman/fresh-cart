@@ -1,6 +1,5 @@
 "use server";
 import getMyToken from "@/utilities/getMyToken";
-import { toast } from "sonner";
 
 export default async function getCartItems() {
   try {

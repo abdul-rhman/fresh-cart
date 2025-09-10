@@ -5,7 +5,7 @@ import getCategories from "../APIs/allCategories.api";
 import AllProducts from "./_components/AllProducts/AllProducts";
 
 export default async function Home() {
-  let categories = await getCategories();
+  const categories = await getCategories();
   return (
     <div>
       <MainSlider />

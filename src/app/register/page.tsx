@@ -2,13 +2,11 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Register() {
-  let router = useRouter();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<registerShemaType>({
     resolver: zodResolver(registerFormSchema),
@@ -38,7 +36,7 @@ export default function Register() {
   async function onSubmit(values: registerShemaType) {
     setIsLoading(true);
     try {
-      let { data } = await axios.post(
+      await axios.post(
         `https://ecommerce.routemisr.com/api/v1/auth/signup`,
         values
       );
