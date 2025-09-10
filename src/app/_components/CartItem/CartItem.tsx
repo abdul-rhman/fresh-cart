@@ -2,7 +2,7 @@
 import removeCartItem from "@/actions/cartActions/removeCartItem.action";
 import updateCartItemQuantity from "@/actions/cartActions/updateCartItemQuantity.action";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
-import { cartItemType, cartResponseType } from "@/types/cart.type";
+import { cartItemType, cartResponseType } from "@/types/Cart.type";
 import Image from "next/image";
 import React, { useContext, useState } from "react";
 import { toast } from "sonner";

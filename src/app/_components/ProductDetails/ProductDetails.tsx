@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { ProductType } from "@/types/product.type";
+import { ProductType } from "@/types/Product.type";
 import AddtoCartButton from "./../AddtoCartButton/AddtoCartButton";
 export default function ProductDetails({ product }: { product: ProductType }) {
   return (

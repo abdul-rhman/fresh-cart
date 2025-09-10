@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import ClearCart from "@/actions/cartActions/clearCart.action";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
-import { cartResponseType } from "@/types/cart.type";
+import { cartResponseType } from "@/types/Cart.type";
 import Link from "next/link";
 
 export default function Cart() {

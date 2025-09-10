@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import { ProductType } from "@/types/product.type";
+import { ProductType } from "@/types/Product.type";
 import AddtoCartButton from "./../AddtoCartButton/AddtoCartButton";
 
 export default function SingleProduct({ product }: { product: ProductType }) {

@@ -1,6 +1,6 @@
 "use client";
 import getCartItems from "@/actions/cartActions/getCartItems.action";
-import { cartItemType } from "@/types/cart.type";
+import { cartItemType } from "@/types/Cart.type";
 import {
   createContext,
   Dispatch,

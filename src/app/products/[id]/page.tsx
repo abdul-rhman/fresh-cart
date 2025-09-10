@@ -2,7 +2,7 @@ import getRelatedProducts from "@/APIs/relatedProducts.api";
 import getSingleProduct from "@/APIs/singleProduct.api";
 import ProductDetails from "@/app/_components/ProductDetails/ProductDetails";
 import React from "react";
-import { ProductType } from "../../../types/product.type";
+import { ProductType } from "../../../types/Product.type";
 import SingleProduct from "./../../_components/SignleProduct/SingleProduct";
 
 export default async function SingleProductDetailed({
@@ -16,7 +16,7 @@ export default async function SingleProductDetailed({
     return <h1>Somthing went wrong...</h1>;
   }
   const relatedProducts = await getRelatedProducts(product.category._id);
-  console.log(relatedProducts);;
+  console.log(relatedProducts);
   return (
     <>
       <ProductDetails product={product} />
