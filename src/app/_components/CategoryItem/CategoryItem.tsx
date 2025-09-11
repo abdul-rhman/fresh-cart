@@ -12,7 +12,7 @@ export default function CategoryItem({ category }: { category: CategoryType }) {
             <CardTitle>
               <Image
                 height={250}
-                width={250> 3 | import BrandItem from "../_components/BrandItem/BrandItem";}
+                width={250}
                 src={category.image}
                 alt=""
                 className="w-full h-[300px] object-contain"
