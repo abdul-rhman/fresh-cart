@@ -13,11 +13,9 @@ export default async function getMyToken() {
       secret: process.env.NEXTAUTH_SECRET!,
     });
     if (!decoded) return null;
-    console.log(decoded?.token);
     return decoded?.token || null;
-  } catch (err:unknown) {
-    if(err instanceof Error){
-
+  } catch (err: unknown) {
+    if (err instanceof Error) {
     }
     return null;
   }

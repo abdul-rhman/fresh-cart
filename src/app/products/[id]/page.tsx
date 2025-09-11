@@ -16,7 +16,6 @@ export default async function SingleProductDetailed({
     return <h1>Somthing went wrong...</h1>;
   }
   const relatedProducts = await getRelatedProducts(product.category._id);
-  console.log(relatedProducts);
   return (
     <>
       <ProductDetails product={product} />

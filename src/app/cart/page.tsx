@@ -14,7 +14,6 @@ export default function Cart() {
   const [isCartLoading, setCartLoading] = useState(true);
   const [isClearCartLoading, setClearCartLoading] = useState(false);
   const [isCheckoutLoading, setCheckoutLoading] = useState(false);
-  console.log(cart?.data.totalCartPrice);
 
   const { setCartItemsCount } = useContext(cartCountContext)!;
   function handleCheckout() {
@@ -27,7 +26,6 @@ export default function Cart() {
     setClearCartLoading(true);
     try {
       const res = await ClearCart();
-      console.log(res);
       if (res.message === "success") {
         toast.success("cart cleared sucessfully", {
           position: "top-center",
@@ -50,7 +48,6 @@ export default function Cart() {
   async function updaeCart() {
     try {
       const res = await getCartItems();
-      console.log(res);
       setCartLoading(false);
       if (res.status === "success") {
         SetCart(res);
