@@ -1,7 +1,7 @@
-import getBrands from "@/APIs/allBrands.api";
+import getBrands from "@/APIs/allCategories.api";
 import React from "react";
-import BrandItem from "../_components/BrandItem/BrandItem";
 import { BrandType } from "@/types/Brand.type";
+import BrandItem from "./../app/_components/BrandItem/BrandItem";
 
 export default async function Brands() {
   const data = await getBrands();

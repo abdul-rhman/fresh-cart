@@ -24,7 +24,7 @@ export default function SingleProduct({ product }: { product: ProductType }) {
                 width={300}
                 src={product.imageCover}
                 alt=""
-                className="w-full"
+                className="w-full h-[300px] object-contain"
               />
             </CardTitle>
             <CardDescription className="text-emerald-500">

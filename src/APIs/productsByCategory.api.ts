@@ -1,5 +1,5 @@
 "use server";
-export default async function getRelatedProducts(id: string) {
+export default async function getproductsByCategory(id: string) {
   const result = await fetch(
     `https://ecommerce.routemisr.com/api/v1/products/?category[in]=${id}`
   );
