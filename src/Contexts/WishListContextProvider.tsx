@@ -11,8 +11,8 @@ import {
 } from "react";
 
 type wishListContextType = {
-  wishList: string[];
-  setwishList: Dispatch<SetStateAction<string[]>>;
+  wishList: ProductType[];
+  setwishList: Dispatch<SetStateAction<ProductType[]>>;
 };
 
 export const WishListContext = createContext<wishListContextType | undefined>(
@@ -20,13 +20,12 @@ export const WishListContext = createContext<wishListContextType | undefined>(
 );
 
 export function WishListContextProvider({ children }: { children: ReactNode }) {
-  const [wishList, setwishList] = useState<string[]>([]);
+  const [wishList, setwishList] = useState<ProductType[]>([]);
   async function updaeWishList() {
     try {
       const res = await getWishListItems();
       if (res.status === "success") {
-        console.log(res);
-        setwishList(res.data.map((product: ProductType) => product._id));
+        setwishList(res.data);
       }
     } catch (err: unknown) {
       if (err instanceof Error) {

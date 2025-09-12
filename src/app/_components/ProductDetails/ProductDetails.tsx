@@ -28,7 +28,7 @@ export default function ProductDetails({ product }: { product: ProductType }) {
               <i className="fas fa-star text-yellow-400"></i>
             </div>
           </div>
-          <AddtoCartButton productId={product.id} />
+          <AddtoCartButton product={product} />
         </div>
       </div>
     </>

@@ -44,7 +44,7 @@ export default function SingleProduct({ product }: { product: ProductType }) {
             </div>
           </div>
         </CardFooter>
-        <AddtoCartButton productId={product.id} />
+        <AddtoCartButton product={product} />
       </Card>
     </div>
   );

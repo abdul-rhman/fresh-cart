@@ -5,10 +5,11 @@ import removeWishListItem from "@/actions/wishListActions/removeWishlistItem.act
 import { Button } from "@/components/ui/button";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
 import { WishListContext } from "@/Contexts/WishListContextProvider";
+import { ProductType } from "@/types/Product.type";
 import React, { useContext, useState } from "react";
 import { toast } from "sonner";
 
-export default function AddtoCartButton({ productId }: { productId: string }) {
+export default function AddtoCartButton({ product }: { product: ProductType }) {
   const { wishList, setwishList } = useContext(WishListContext)!;
   const [isLoading, setIsLoading] = useState(false);
   // const [wishListed, setWishlisted] = useState();
@@ -17,7 +18,7 @@ export default function AddtoCartButton({ productId }: { productId: string }) {
   async function handleAddToCart() {
     setIsLoading(true);
     try {
-      const response = await addToCart(productId);
+      const response = await addToCart(product.id);
       if (response.status === "success") {
         toast.success("Product added to cart sucessfully", {
           position: "top-center",
@@ -38,22 +39,29 @@ export default function AddtoCartButton({ productId }: { productId: string }) {
     setIsLoading(false);
   }
   async function handleWishlistClicked() {
-    const add = !wishList.includes(productId);
+    const add = !wishList.some(
+      (wishlistProduct) => wishlistProduct.id === product.id
+    );
     setWishlistedLoading(true);
     try {
       const response = add
-        ? await addToWishlist(productId)
-        : await removeWishListItem(productId);
+        ? await addToWishlist(product.id)
+        : await removeWishListItem(product.id);
       if (response.status === "success") {
         toast.success(response.message, {
           position: "top-center",
           duration: 2000,
         });
         add
-          ? setwishList((oldWishList: string[]) => [...oldWishList, productId])
-          : setwishList((oldWishList: string[]) => {
+          ? setwishList((oldWishList: ProductType[]) => [
+              ...oldWishList,
+              product,
+            ])
+          : setwishList((oldWishList: ProductType[]) => {
               const newWishList = [...oldWishList];
-              const index = newWishList.findIndex((id) => id == productId);
+              const index = newWishList.findIndex(
+                (wishlistProduct) => wishlistProduct.id == product.id
+              );
               newWishList.splice(index, 1);
               return newWishList;
             });
@@ -92,7 +100,9 @@ export default function AddtoCartButton({ productId }: { productId: string }) {
             <i
               onClick={handleWishlistClicked}
               className={`${
-                wishList.includes(productId)
+                wishList.some(
+                  (wishlistProduct) => wishlistProduct.id === product.id
+                )
                   ? "fa-solid text-red-500"
                   : "fa-regular text-emerald-900"
               } fa-heart  text-3xl cursor-pointer`}

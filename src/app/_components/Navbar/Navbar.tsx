@@ -5,7 +5,8 @@ import React, { useContext } from "react";
 import { cartCountContext } from "@/Contexts/CartCountContextProvider";
 
 export default function Navbar() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
+  // const { data: session, status } = useSession();
   const { cartItemsCount } = useContext(cartCountContext)!;
   function handleSignOut() {
     signOut({ callbackUrl: "/signin" });
@@ -13,7 +14,7 @@ export default function Navbar() {
 
   return (
     <nav className="bg-emerald-700 text-white">
-      <div className="container p-4 mx-auto w-full lg:w-[85%] flex flex-col lg:flex-row justify-between gap-4 items-center">
+      <div className="container px-4 py-3 mx-auto w-full lg:w-[85%] flex  flex-col lg:flex-row justify-between gap-4 items-center">
         <div id="left">
           <ul className="flex gap-2 lg:gap-4 items-center">
             <li>
@@ -25,18 +26,6 @@ export default function Navbar() {
             <li>
               <Link href="/">Home</Link>
             </li>
-            {session ? (
-              <li className="relative">
-                <Link href="/cart">Cart</Link>
-                {cartItemsCount > 0 && (
-                  <div className="flex items-center justify-center absolute size-[20px] p-2 rounded-full -right-2 -top-3 bg-white text-emerald-900">
-                    {cartItemsCount}
-                  </div>
-                )}
-              </li>
-            ) : (
-              ""
-            )}
             <li>
               <Link href="/products">Products</Link>
             </li>
@@ -76,9 +65,34 @@ export default function Navbar() {
                 </li>
               </>
             ) : status === "authenticated" ? (
-              <li className="cursor-pointer" onClick={handleSignOut}>
-                SignOut
-              </li>
+              <>
+                <li className="relative">
+                  <Link
+                    href="/cart"
+                    className="flex size-[45px] bg-emerald-800 items-center justify-center rounded-full"
+                  >
+                    <i className="text-2xl fa-solid fa-cart-shopping text-white"></i>
+                  </Link>
+                  {cartItemsCount > 0 && (
+                    <div className="flex items-center justify-center absolute size-[20px] p-2 rounded-full -right-2 -top-1 bg-white text-emerald-900">
+                      {cartItemsCount}
+                    </div>
+                  )}
+                </li>
+                <li>
+                  <Link
+                    href="/wishlist"
+                    className="flex size-[45px] bg-emerald-800 items-center justify-center rounded-full"
+                  >
+                    <i className="text-2xl fa-solid fa-heart "></i>
+                  </Link>
+                </li>
+                <li className="cursor-pointer" onClick={handleSignOut}>
+                  <span className="flex size-[45px] bg-emerald-800 items-center justify-center rounded-full">
+                    <i className="text-2xl fa-solid fa-right-from-bracket text-white"></i>
+                  </span>
+                </li>
+              </>
             ) : (
               ""
             )}
