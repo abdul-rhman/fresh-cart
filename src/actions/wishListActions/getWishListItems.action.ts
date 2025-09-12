@@ -6,7 +6,7 @@ export default async function getWishListItems() {
     const token = await getMyToken();
 
     if (!token) {
-      throw new Error("login first");
+      return { status: "error", message: "login first" };
     }
     const response = await fetch(
       `https://ecommerce.routemisr.com/api/v1/wishlist`,

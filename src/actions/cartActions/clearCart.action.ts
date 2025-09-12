@@ -5,7 +5,7 @@ export default async function ClearCart() {
     const token = await getMyToken();
 
     if (!token) {
-      throw new Error("login first");
+      return { status: "error", message: "login first" };
     }
     const response = await fetch(
       `https://ecommerce.routemisr.com/api/v1/cart`,

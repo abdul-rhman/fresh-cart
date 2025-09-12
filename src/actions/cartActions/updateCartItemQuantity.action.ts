@@ -14,7 +14,9 @@ export default async function updateCartItemQuantity(
         position: "top-center",
         duration: 20000,
       });
-      throw new Error("login first");
+      if (!token) {
+        return { status: "error", message: "login first" };
+      }
     }
     const response = await fetch(
       `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
