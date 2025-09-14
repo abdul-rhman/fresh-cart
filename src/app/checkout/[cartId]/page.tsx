@@ -12,29 +12,42 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { checkoutFormSchema, checkoutShemaType } from "@/Schema/checkout.shema";
-import { useParams } from "next/navigation";
+import {
+  checkoutFormSchema,
+  checkoutSchemaType,
+} from "@/Schema/checkout.shema";
+import { useParams, useRouter } from "next/navigation";
 import onlinePayment from "@/actions/checkoutAction/onlineCheckout.action";
+import createCashOrder from "@/actions/checkoutAction/cashOrder.action";
 import { toast } from "sonner";
 import { useState } from "react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 export default function Checkout() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { cartId }: { cartId: string } = useParams();
-  const form = useForm<checkoutShemaType>({
+  const router = useRouter();
+  const form = useForm<checkoutSchemaType>({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
       details: "",
       phone: "",
       city: "",
+      paymentMethod: "cash",
     },
   });
 
-  async function onSubmit(values: checkoutShemaType) {
+  async function onSubmit(values: checkoutSchemaType) {
     setIsLoading(true);
-    const res = await onlinePayment(cartId, "http://localhost:3000", values);
+    const { paymentMethod, ...input } = values;
+    const res =
+      paymentMethod === "cash"
+        ? await createCashOrder(cartId, input)
+        : await onlinePayment(cartId, "http://localhost:3000", input);
     if (res.status === "success") {
-      window.location.assign(res.session.url);
+      if (paymentMethod === "cash") router.push("/allorders");
+      else window.location.assign(res.session.url);
     } else {
       toast.error("something went wrong", {
         position: "top-center",
@@ -96,12 +109,47 @@ export default function Checkout() {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="paymentMethod"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Payment Method</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col gap-2"
+                  >
+                    <FormItem className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value="cash" id="cash" />
+                      </FormControl>
+                      <Label htmlFor="cash">Pay on Delivery</Label>
+                    </FormItem>
+
+                    <FormItem className="flex items-center space-x-2">
+                      <FormControl>
+                        <RadioGroupItem value="visa" id="visa" />
+                      </FormControl>
+                      <Label htmlFor="visa">Visa</Label>
+                    </FormItem>
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
             disabled={isLoading}
             className="cursor-pointer w-full disabled:bg-emerald-500 bg-emerald-800 hover:bg-emerald-900"
             type="submit"
           >
-            {isLoading ? <i className=" fa fa-spin fa-spinner"></i> : "pay"}
+            {isLoading ? (
+              <i className=" fa fa-spin fa-spinner"></i>
+            ) : (
+              "Place your Order"
+            )}
           </Button>
         </form>
       </Form>

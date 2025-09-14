@@ -8,4 +8,4 @@ export const loginFormSchema = z.object({
     .min(2, "cant't be less thatn 6 chars"),
 });
 
-export type loginShemaType = z.infer<typeof loginFormSchema>;
+export type loginSchemaType = z.infer<typeof loginFormSchema>;

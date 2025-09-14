@@ -13,7 +13,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { registerFormSchema, registerShemaType } from "@/Schema/register.shema";
+import {
+  registerFormSchema,
+  registerSchemaType,
+} from "@/Schema/register.shema";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -22,7 +25,7 @@ import { useState } from "react";
 export default function Register() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const form = useForm<registerShemaType>({
+  const form = useForm<registerSchemaType>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
       name: "",
@@ -33,7 +36,7 @@ export default function Register() {
     },
   });
 
-  async function onSubmit(values: registerShemaType) {
+  async function onSubmit(values: registerSchemaType) {
     setIsLoading(true);
     try {
       await axios.post(

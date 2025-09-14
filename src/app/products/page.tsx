@@ -34,7 +34,7 @@ export default async function Page({
 
     return (
       <div className="container w-[80%] mx-auto my-4">
-        <h1 className="text-center mt-12 mb-4 mx-auto md:text-start md:mx-2 p-4 w-[fit-content] text-white font-bold bg-emerald-800 rounded-3xl">
+        <h1 className="text-center text-4xl mt-12 mb-4 mx-auto md:text-start md:mx-2 p-4 w-[fit-content]  font-bold  border-b-4 border-emerald-700">
           {products.length
             ? `${products[0].brand.name} | ${products.length} Items`
             : "No products Found"}

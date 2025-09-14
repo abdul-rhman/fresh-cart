@@ -2,9 +2,8 @@
 import { checkoutApiSchemaType } from "@/Schema/checkout.shema";
 import getMyToken from "@/utilities/getMyToken";
 
-export default async function onlinePayment(
+export default async function createCashOrder(
   cartId: string,
-  url: string,
   formData: checkoutApiSchemaType
 ) {
   try {
@@ -14,7 +13,7 @@ export default async function onlinePayment(
       return { status: "error", message: "login first" };
     }
     const response = await fetch(
-      `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`,
+      `https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,
       {
         method: "POST",
         headers: { token, "Content-Type": "application/json" },

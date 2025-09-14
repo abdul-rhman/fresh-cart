@@ -27,4 +27,4 @@ export const registerFormSchema = z
     { message: "passowrd isn't match", path: ["rePassword"] }
   );
 
-export type registerShemaType = z.infer<typeof registerFormSchema>;
+export type registerSchemaType = z.infer<typeof registerFormSchema>;

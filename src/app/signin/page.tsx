@@ -13,14 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginFormSchema, loginShemaType } from "@/Schema/signin.shema";
+import { loginFormSchema, loginSchemaType } from "@/Schema/signin.shema";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
-  const form = useForm<loginShemaType>({
+  const form = useForm<loginSchemaType>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -28,7 +28,7 @@ export default function Register() {
     },
   });
 
-  async function onSubmit(values: loginShemaType) {
+  async function onSubmit(values: loginSchemaType) {
     setIsLoading(true);
     const response = await signIn("credentials", {
       email: values.email,
